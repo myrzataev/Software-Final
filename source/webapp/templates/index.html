@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Сервис Тестирования</h2>
+                        <hr class="mb-4">
+                        {% if request.user.is_authenticated %}
+                            <p class="lead">Добро пожаловать, {{ request.user.username }}!</p>
+                                <form action="{% url 'accounts:logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-block">Выйти</button>
+                                </form>
+                            <a href="{% url 'webapp:test_list_view' %}" class="btn btn-primary btn-block">Список тестов</a>
+                        {% else %}
+                            <p class="lead">Добро пожаловать в Сервис Тестирования!</p>
+                            <p class="text-muted mb-4">Пожалуйста, войдите или зарегистрируйтесь, чтобы начать тестирование.</p>
+                            <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-block">Войти</a>
+                            <a href="{% url 'accounts:signup' %}" class="btn btn-secondary btn-block">Зарегистрироваться</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

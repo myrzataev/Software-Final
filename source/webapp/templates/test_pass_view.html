@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">{{ test_set.title }}</h1>
+    <form id="testForm" method="post">
+        {% csrf_token %}
+        {% for question in questions %}
+        <div class="question card mb-4" id="question{{ question.id }}" style="display: none;">
+            <div class="card-body">
+                <h2 class="card-title">{{ question.text }}</h2>
+                <ul class="list-group list-group-flush">
+                    {% for answer in question.answer_set.all %}
+                    <li class="list-group-item">
+                        <input type="radio" name="answer_{{ question.id }}" value="{{ answer.id }}"
+                               id="answer_{{ answer.id }}">
+                        <label for="answer_{{ answer.id }}">{{ answer.text }}</label>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="form-group d-flex flex-row gap-1">
+            <button type="button" class="btn btn-primary prev-question mr-2">Предыдущий вопрос</button>
+            <button type="button" class="btn btn-primary next-question mr-2">Следующий вопрос</button>
+            <button type="submit" class="btn btn-success submit" style="display: none;">Завершить</button>
+        </div>
+    </form>
+</div>
+<script>
+    const questions = document.querySelectorAll('.question');
+    let currentQuestionIndex = 0;
+    const nextQuestion = document.querySelector('.next-question');
+    const prevQuestion = document.querySelector('.prev-question');
+
+    const submitButton = document.querySelector('.submit');
+
+    function showQuestion(index) {
+        questions.forEach((question, idx) => {
+            if (idx === index) {
+                question.style.display = 'block';
+            } else {
+                question.style.display = 'none';
+            }
+        });
+    };
+
+    function showNextQuestion() {
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+        }
+        if (currentQuestionIndex === questions.length - 1) {
+            submitButton.style.display = 'block';
+            nextQuestion.style.display = 'none';
+        }
+    }
+
+    function showPrevQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showQuestion(currentQuestionIndex);
+        }
+        if (currentQuestionIndex === questions.length - 1) {
+            submitButton.style.display = 'block';
+            nextQuestion.style.display = 'none';
+        } else if (currentQuestionIndex < questions.length - 1) {
+            submitButton.style.display = 'none';
+            nextQuestion.style.display = 'block';
+        }
+    }
+
+    nextQuestion.addEventListener('click', () => {
+        showNextQuestion();
+    });
+
+    prevQuestion.addEventListener('click', () => {
+        showPrevQuestion();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => showQuestion(0));
+</script>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card mt-4">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="mb-0">{{ test_set.title }}</h1>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ test_set.description }}</p>
+                    <hr>
+                    <h2 class="mb-4">Вопросы</h2>
+                    <ul class="list-group">
+                        {% for question in test_set.question_set.all %}
+                            <li class="list-group-item">{{ question.text }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'webapp:test_pass_view' test_set.id %}" class="btn btn-primary">Пройти тест</a>
+                    <a href="{% url 'webapp:test_list_view' %}" class="btn btn-primary">Назад к списку тестов</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="mt-4 mb-4">Список тестовых наборов</h1>
+            <ul class="list-group">
+                {% for test_set in test_sets %}
+                    <li class="list-group-item">
+                        {% if test_set %}
+                            <a href="{% url 'webapp:test_detail_view' test_set.id %}">{{ test_set.title }}</a>
+                        {% else %}
+                            Тесты ещё не созданы
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                <li class="list-group-item">
+                    <a href="{% url 'accounts:logout' %}" class="btn btn-danger btn-block">Выйти</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

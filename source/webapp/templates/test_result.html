@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mt-4 mb-4">Результаты теста "{{ test_set.title }}"</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="lead">Количество правильных ответов: <span class="font-weight-bold">{{ correct_answers_count }}</span> из <span class="font-weight-bold">{{ total_questions }}</span></p>
+                <p class="lead">Процент правильных ответов: <span class="font-weight-bold">{{ correct_percentage }}%</span></p>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <a href="{% url 'webapp:test_list_view' %}" class="btn btn-primary">Вернуться к списку тестов</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
