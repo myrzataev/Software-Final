@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -12,6 +11,8 @@ class TestSet(models.Model):
 
 class Question(models.Model):
     text = models.TextField()
+    photo = models.ImageField(upload_to='photo/', null=True, blank=True)
+    audio = models.FileField(upload_to='audio/', null=True, blank=True)
     test_set = models.ForeignKey(TestSet, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -19,9 +20,6 @@ class Question(models.Model):
 
     def clean(self):
         super().clean()
-
-        if not self.answer_set.filter(is_correct=True).exists():
-            raise ValidationError('Должен быть хотя бы 1 правильный вариант.')
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -38,9 +36,6 @@ class Answer(models.Model):
 
     def clean(self):
         super().clean()
-
-        if self.is_correct and self.question.answer_set.filter(is_correct=True).exists():
-            raise ValidationError('Вопрос уже содержит правильный ответ.')
 
     def save(self, *args, **kwargs):
         self.clean()

@@ -9,6 +9,14 @@
         <div class="question card mb-4" id="question{{ question.id }}" style="display: none;">
             <div class="card-body">
                 <h2 class="card-title">{{ question.text }}</h2>
+                {% if question.photo %}
+                    <img src="{{ question.photo.url }}" alt="Question Photo" class="img-fluid mb-3">
+                {% endif %}
+                {% if question.audio %}
+                    <audio controls>
+                        <source src="{{ question.audio.url }}" type="audio/mpeg">
+                    </audio>
+                {% endif %}
                 <ul class="list-group list-group-flush">
                     {% for answer in question.answer_set.all %}
                     <li class="list-group-item">
