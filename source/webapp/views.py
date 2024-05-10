@@ -21,7 +21,7 @@ def test_detail_view(request, test_set_id):
     test_set = get_object_or_404(TestSet, pk=test_set_id)
     return render(request, 'test_detail_view.html', {'test_set': test_set})
 
-
+# kkk
 # Пройти тест
 @login_required
 def test_pass_view(request, test_set_id):
